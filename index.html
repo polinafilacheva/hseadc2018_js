@@ -21,53 +21,57 @@
       position: absolute;
     }
 
-
   </style>
 
-
   <script type="text/javascript">
+
+    function generatePercent(limit) {
+       let number = Math.round(Math.random() * limit)
+       return number
+    }
+
+    function generateColorChannel() {
+       return Math.floor(Math.random() * 225)
+    }
+
+    function generateSize(){
+       return generatePercent(95)
+    }
+
+    function generateShift(size){
+      let limit = 100 - size
+      return generatePercent(limit)
+    }
+
+    function generateColor(){
+       let r = generateColorChannel()
+       let g = generateColorChannel()
+       let b = generateColorChannel()
+
+       let color = "rgb(" + [r, g, b].join() + ")"
+
+       return color
+    }
+
+    function changeRectangleCSS(element) {
+      let width = generateSize()
+      let height = generateSize()
+
+      element.css({
+        "top":              generateShift(height) + "%",
+        "left":             generateShift(width) + "%",
+        "width":            width + "%",
+        "height":           height + "%",
+        "background-color": generateColor()
+      })
+    }
+
     $(function() {
       $("div").each(function(index) {
-        let width  = Math.round(Math.random() * 1000)
-        let height = Math.round(Math.random() * 1000)
-        let x      = Math.round(Math.random() * 1000)
-        let y      = Math.round(Math.random() * 1000)
+        changeRectangleCSS($(this))
 
-        let r      = Math.floor(Math.random() * 225) + 1
-        let g      = Math.floor(Math.random() * 225) + 1
-        let b      = Math.floor(Math.random() * 225) + 1
-        let color  = [r, g, b].join()
-
-        console.log(color)
-
-        $(this).css({
-          "top": y + "px",
-          "left": x + "px",
-          "width": width + "px",
-          "height": height + "px",
-          "background-color": "rgb(" + color + ")"
-        })
-
-        $(this).on("mouseenter", function(){
-          let width  = Math.round(Math.random() * 1000)
-          let height = Math.round(Math.random() * 1000)
-          let x      = Math.round(Math.random() * 1000)
-          let y      = Math.round(Math.random() * 1000)
-
-          let r      = Math.floor(Math.random() * 225) + 1
-          let g      = Math.floor(Math.random() * 225) + 1
-          let b      = Math.floor(Math.random() * 225) + 1
-          let color  = [r, g, b].join()
-
-          console.log(color)
-
-          $(this).css({
-            "top": y + "px",
-            "left": x + "px",
-            "width": width + "px",
-            "height": height + "px",
-            "background-color": "rgb(" + color + ")"
-          })
+      $(this).on("mouseenter", function(){
+        changeRectangleCSS($(this))
         })
       })
     })
