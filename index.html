@@ -7,7 +7,7 @@
 
   <style>
     * {
-      transitione: oll 0.3s ease;
+      transitione: oll 0.6s ease;
     }
 
     html, body {
@@ -17,169 +17,124 @@
       position: absolute;
     }
 
+    body {
+      display: flex;
+    }
+
+    section {
+      position: relative;
+      width: 50%;
+      height: 80%;
+      margin: auto;
+      background: white;
+    }
+
     div {
       position: absolute;
+      will-change: transform;
     }
 
   </style>
 
   <script type="text/javascript">
 
+    function generateRectangles(quantity) {
+        const element = "<div></div>"
+        let elements = ""
+        let step
+
+
+
+        for (step = 0; step < quantity; step++) {
+        elements += element
+
+        }
+
+        $("#artboard").append(elements)
+    }
+        function getRandomArbitrary(min, max) {
+          return Math.floor(Math.random() * (max - min)) + min
+        }
+
     function generatePercent(limit) {
-       let number = Math.round(Math.random() * limit)
-       return number
+        let number = Math.round(Math.random() * limit)
+        return number
     }
 
     function generateColorChannel() {
-       return Math.floor(Math.random() * 225)
+        // return Math.floor(Math.random() * 225) + 100
+        return getRandomArbitrary(200, 250)
     }
 
     function generateSize(){
-       return generatePercent(95)
+        return generatePercent(95)
     }
 
     function generateShift(size){
-      let limit = 100 - size
-      return generatePercent(limit)
+        let limit = 100 - size
+        return generatePercent(limit)
     }
 
     function generateColor(){
-       let r = generateColorChannel()
-       let g = generateColorChannel()
-       let b = generateColorChannel()
+        let r = generateColorChannel()
+        let g = generateColorChannel()
+        let b = generateColorChannel()
 
-       let color = "rgb(" + [r, g, b].join() + ")"
+        let colorArray = [r, g, b]
 
-       return color
+        const random = Math.floor(Math.random() * colorArray.length)
+
+        colorArray[random]
+
+        const colorCSS = "rgb(" + colorArray.join() + ")"
+
+        return colorCSS
     }
 
     function changeRectangleCSS(element) {
-      let width = generateSize()
-      let height = generateSize()
+        const width = generateSize()
+        const height = generateSize()
+        const x = generateShift(width) + "%"
+        const y = generateShift(height) + "%"
+        const translate = [x, y].join()
 
-      element.css({
-        "top":              generateShift(height) + "%",
-        "left":             generateShift(width) + "%",
+
+
+    element.css({
+        "transform":        "translate(" + translate + ") translateZ(0)",
         "width":            width + "%",
         "height":           height + "%",
         "background-color": generateColor()
+
       })
     }
 
-    $(function() {
-      $("div").each(function(index) {
+    function changeRectanglesCSS() {
+      $("div").each(function() {
         changeRectangleCSS($(this))
-
-      $(this).on("mouseenter", function(){
-        changeRectangleCSS($(this))
-        })
       })
+    }
+
+    function changeRectangleOnTime() {
+        setTimeout(function() {
+        changeRectanglesCSS()
+        changeRectangleOnTime()
+     }, 600)
+    }
+
+    $(function() {
+        generateRectangles(5)
+        changeRectangleOnTime()
+
     })
 </script>
 
 </head>
-<body>
 
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
+<body>
+<section id="artboard">
+
+</section>
 
 </body>
 </html>
